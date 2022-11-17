@@ -92,10 +92,19 @@ fs.writeFileSync("./ar.txt", outti)
 })
 },120000)
 
+let rf = require('fs').readdirSync("./routers")
+for(let i = 0; i < rf.length; i++) {
+    let ab = require('./routers/'+rf[i])
+    app.use(ab.route,ab.router)
+}
+
+
 function getShit() {
     return {amt6:amt6,amt4:amt4,v6asns:v6asns,v4asns:v4asns,v6only:v6only,all:tasns};   
 }
 module.exports.fetch = getShit;
+
+
 app.get("/routes/info",cache(120), async (req, res) => {
 res.json({v6:amt6,v4:amt4,asns:{v6:v6asns.length,v4:v4asns.length,v6only:v6only.length,v4only:v4only.length,all:tasns.length}})
 })

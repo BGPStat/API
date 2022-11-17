@@ -92,26 +92,12 @@ fs.writeFileSync("./ar.txt", outti)
 })
 },120000)
 
+function getShit() {
+    return {amt6:amt6,amt4:amt4,v6asns:v6asns,v4asns:v4asns,v6only:v6only,all:tasns};   
+}
+module.exports.fetch = getShit;
 app.get("/routes/info",cache(120), async (req, res) => {
 res.json({v6:amt6,v4:amt4,asns:{v6:v6asns.length,v4:v4asns.length,v6only:v6only.length,v4only:v4only.length,all:tasns.length}})
-})
-app.get("/lists/asns",async(req,res) => {
-let d = []
-for (let i = 0; i < v6asns.length;i++) {
-d.push(v6asns[i])
-}
-for (let i = 0; i < v4asns.length;i++) {
-d.push(v4asns[i])
-}
-let e = Array.from(new Set(d))
-res.send(e.join("\n"))
-})
-
-app.get("/lists/v4asns",async(req,res) => {
-res.send(v4asns.join("\n"))
-})
-app.get("/lists/v6asns",async(req,res) => {
-res.send(v6asns.join("\n"))
 })
 app.get("/routes/:asn",cache(500),async(req,res) => {
 let a = req.params.asn;

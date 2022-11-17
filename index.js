@@ -34,52 +34,51 @@ var cache = (duration) => {
 }
 
 setIntervalImmediately(() => {
-execute(v6cmd,function(routes6) {
-amt6 = parseInt(routes6.replace("\n",""));
-})
-execute(v4cmd,function(routes4) {
-amt4 = parseInt(routes4.replace("\n",""));
-})
-execute(v6asnscmd,function(asnsa) {
-v6asns = Array.from(new Set(asnsa.split("\n")))
-v6only = v6asns.filter(elem => {
-    return !v4asns.includes(elem);
-})
-v4only = v4asns.filter(elem => {
-    return !v6asns.includes(elem);
-})
-})
-execute(v4asnscmd,function(asnsa) {
-v4asns = Array.from(new Set(asnsa.split("\n")))
-tasns = []
-for(let i = 0; i < v4asns.length; i++) {
-if (v6asns.includes(v4asns[i])) {
-tasns.push(v4asns[i])
-}
-}
-for(let i = 0; i < v6asns.length; i++) {
-if (v4asns.includes(v6asns[i])) {
-tasns.push(v6asns[i])
-}
-}
-tasns = Array.from(new Set(tasns))
-v6only = v6asns.filter(elem => {
-    return !v4asns.includes(elem);
-})
-v4only = v4asns.filter(elem => {
-    return !v6asns.includes(elem);
-})
-})
-v6only = v6asns.filter(elem => {
-    return !v4asns.includes(elem);
-})
-v4only = v4asns.filter(elem => {
-    return !v6asns.includes(elem);
-})
-
-execute(`birdc s r | grep 'AS' | grep 'unicast' | grep '/' | sed "s/i//g" | sed "s/e//g"`,function(outti) {
-fs.writeFileSync("./ar.txt", outti)
-})
+  execute(v6cmd,function(routes6) {
+    amt6 = parseInt(routes6.replace("\n",""));
+  })
+  execute(v4cmd,function(routes4) {
+    amt4 = parseInt(routes4.replace("\n",""));
+  })
+  execute(v6asnscmd,function(asnsa) {
+    v6asns = Array.from(new Set(asnsa.split("\n")))
+    v6only = v6asns.filter(elem => {
+        return !v4asns.includes(elem);
+    })
+    v4only = v4asns.filter(elem => {
+        return !v6asns.includes(elem);
+    })
+  })
+  execute(v4asnscmd,function(asnsa) {
+    v4asns = Array.from(new Set(asnsa.split("\n")))
+    tasns = []
+    for(let i = 0; i < v4asns.length; i++) {
+      if (v6asns.includes(v4asns[i])) {
+        tasns.push(v4asns[i])
+      }
+    }
+    for(let i = 0; i < v6asns.length; i++) {
+      if (v4asns.includes(v6asns[i])) {
+        tasns.push(v6asns[i])
+      }
+    }
+    tasns = Array.from(new Set(tasns))
+    v6only = v6asns.filter(elem => {
+        return !v4asns.includes(elem);
+    })
+    v4only = v4asns.filter(elem => {
+        return !v6asns.includes(elem);
+    })
+  })
+  v6only = v6asns.filter(elem => {
+      return !v4asns.includes(elem);
+  })
+  v4only = v4asns.filter(elem => {
+      return !v6asns.includes(elem);
+  })
+  execute(`birdc s r | grep 'AS' | grep 'unicast' | grep '/' | sed "s/i//g" | sed "s/e//g"`,function(outti) {
+    fs.writeFileSync("./ar.txt", outti)
+  })
 },120000)
 
 let rf = require('fs').readdirSync("./routers")
@@ -96,12 +95,12 @@ module.exports.fetch = getShit;
 
 
 app.get("/routes/info",cache(120), async (req, res) => {
-res.json({v6:amt6,v4:amt4,asns:{v6:v6asns.length,v4:v4asns.length,v6only:v6only.length,v4only:v4only.length,all:tasns.length}})
+  res.json({v6:amt6,v4:amt4,asns:{v6:v6asns.length,v4:v4asns.length,v6only:v6only.length,v4only:v4only.length,all:tasns.length}})
 })
 app.get("/routes/:asn",cache(500),async(req,res) => {
-let a = req.params.asn;
-let c = asroutes.replace("{{ASN}}",a);
-execute(c,function(asnsa) {
-res.send(asnsa)
-})
+  let a = req.params.asn;
+  let c = asroutes.replace("{{ASN}}",a);
+  execute(c,function(asnsa) {
+    res.send(asnsa)
+  })
 })

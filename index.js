@@ -1,7 +1,6 @@
 const express = require('express')
 const mcache = require('memory-cache')
 const app = express()
-const { spawn } = require("child_process");
 const fs = require('fs')
 var exec = require('child_process').exec;
 const {v6cmd,v4cmd,v6asnscmd,v4asnscmd,asroutes,setIntervalImmediately,execute} = require('./funcs.js')

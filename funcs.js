@@ -1,3 +1,8 @@
+const mcache = require('memory-cache')
+const { spawn } = require("child_process");
+const fs = require('fs')
+var exec = require('child_process').exec;
+
 function execute(command, callback){
     exec(command, function(error, stdout, stderr){ callback(stdout); });
 };
